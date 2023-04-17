@@ -1,7 +1,7 @@
 # mormel
 **Time-dependent mid-ocean ridge melting calculator.**
 
-MORMEL calculates the degree and composition of decompressional mantle melting beneath a mid-ocean ridge.  There are three primary references.  
+MORMEL calculates the degree and composition of decompressional mantle melting beneath a mid-ocean ridge when the geometry of mantle motion and/or the temperature of the mantle source vary through time.  There are three primary references.  
 
 **Wea13**  Walters RL, Jones SM, Maclennan J.  Renewed melting at the abandoned Húnafloí Rift, northern Iceland, caused by plume pulsing.  Earth and Planetary Science Letters 377–378 (2013) 227–238, 10.1016/j.epsl.2013.06.040.  *The first publication to use this model.  Model description is in §5.3 of the main paper and §B of the supplementary material.  The calculations estimate the amount, timing and composition of magma produced during reactivation of an abandoned spreading axis.  The compositional calculation works in combination with Dan McKenzie's INVMEL code".*  
 
