@@ -7,8 +7,7 @@ MORMEL calculates the degree and composition of decompressional mantle melting b
 
 **Jea14** Jones SM, Murton BJ, Fitton JG, White NJ, Maclennan J, Walters RL.  A joint geochemical-geophysical record of time-dependent mantle convection south of Iceland.  Earth and Planetary Science Letters 386 (2014) 86–97, 10.1016/j.epsl.2013.09.029.  *Augments the Wea13 model to provide a more self-consistent estimate of the trace element composition that is delivered entirely by MORMEL.  Model description is in §6 of the main paper and §B of the supplementary material.  The calculations estimate the amount, timing and composition of magma produced when pulses of hotter and cooler mantle travel beneath a mid-ocean ridge.*  
 
-**W10**
-Walters RL.  Geochemical signature of rift relocations at Iceland.  Unpublished PhD Thesis, University of Dublin, Trinity College.  *Describes code development in more detail; see Chapter ?*
+[W10:](http://www.tara.tcd.ie/handle/2262/78244)  Walters RL.  Geochemical signature of rift relocations at Iceland.  PhD Thesis, University of Dublin, Trinity College.  *Describes code development in more detail; see Chapter ?*
 
 
 
