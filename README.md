@@ -1,7 +1,7 @@
 # mormel
 **Time-dependent mid-ocean ridge melting calculator.**
 
-MORMEL calculates the degree and composition of decompressional mantle melting beneath a mid-ocean ridge when the geometry of mantle motion and/or the temperature of the mantle source can vary through time.  
+MORMEL calculates the degree and composition of decompressional mantle melting when the geometry of mantle motion and/or the temperature of the mantle source can vary through time.  The code was designed to calculate mid-ocean ridge melting, and it has also been used to estimate melt producitivity in other decompressional melting situations.
 
 The following studies have used MORMEL.  The code version in this repository in Jea14.
 
