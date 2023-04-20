@@ -11,9 +11,11 @@ The following studies have used MORMEL.  The code version in this repository in 
 
 - [Jea14:](http://doi.org/10.1016/j.epsl.2013.09.029) Jones SM, Murton BJ, Fitton JG, White NJ, Maclennan J, Walters RL.  A joint geochemical-geophysical record of time-dependent mantle convection south of Iceland.  Earth and Planetary Science Letters 386 (2014) 86–97, 10.1016/j.epsl.2013.09.029.  *The MORMEL code version in this repository.  Augments the Wea13 version to provide a more self-consistent estimate of the trace element composition that is delivered entirely by MORMEL.  Model description is in §6 of the main paper and §B of the supplementary material.  The calculations estimate the amount, timing and composition of magma produced when pulses of hotter and cooler mantle travel beneath a mid-ocean ridge.*  
 
-- [Gea23:](http://doi.org/10.21203/rs.3.rs-986686/v1)  Gernon TM, Jones SM, Brune S, Hincks TK, Glerum A, Merdith AS, Palmer MR, Schumacher JC, Primiceri RM, Field M, Griffin WL, O’Reilly SY, Keir D, Spencer CJ.  Diamond ascent by rift-driven disruption of cratonic mantle keels.  Pre-print under consideration by Nature (April 2023).  *The Jea14 code was used to make Extended Data Figure 8a.  The calculations estimate the magma productivity and magma water content associated with delamination of basal cratonic lithosphere.*
+- [Gea23:](http://doi.org/10.21203/rs.3.rs-986686/v1)  Gernon TM, Jones SM, Brune S, Hincks TK, Merdith AS, Palmer MR, Schumacher JC, Primiceri RM, Field M, Griffin WL, O’Reilly SY, Keir D, Spencer CJ, Glerum A.  Kimberlite ascent by rift-driven disruption of cratonic mantle keels.  Accepted in principle  by Nature (April 2023).  *The Jea14 code was used to make Figure 3c.  The calculations estimate the magma productivity and magma water content associated with delamination of basal cratonic lithosphere.*
 
-Make using "make". For examples of operation, see the GMT (Generic Mapping Tools) scripts that were used to create some key figures in the references above. 
+ 
+
+Make using "make". For examples of operation, see the shell and GMT (Generic Mapping Tools) scripts below that were used to create some key figures in the references above.  
 
 ## *mormel.f*, *lib_comp.f*, *lib_k03.f*, *lib_mb88.f*, *lib_mel.f*, *lib_res.f*, *lib_comp.f*, *lib_td.f*, *lib_veltem.f*
 
