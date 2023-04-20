@@ -1,0 +1,164 @@
+#!/bin/bash
+
+# DEEP HYDROUS MELTING CALCULATIONS
+# STEVE JONES, OCTOBER 2021 WITH LATER MODIFICATIONS
+# FOR GERNON, JONES ET AL. SUBMISSION TO NATURE 2021,22,23
+# "Kimberlite ascent by rift-driven disruption of cratonic mantle keels"
+
+# PLOTS 3 PANELS:
+# (A) MELT DEGREE VERSUS DEPTH
+# (B) MELT PRODUCTIVITY VERSUS DEPTH
+# (C) WATER IN MELT VERSUS DEPTH
+
+#
+# MELTING CALCULATIONS
+#
+
+# MELTING CALCULATIONS USE THE MORMEL PACKAGE
+# AVAILABLE FROM GITHUB https://github.com/smj75/mormel
+# BEFORE RUNNING THIS SCRIPT, RUN SCRIPT "make_flow_models_gea23.csh" 
+# WHICH USES MORMEL TO GENERATE MELT DEGREE-DEPTH CURVES FOR 
+# VARIOUS BULK WATER CONTENTS.  THESE ARE STORED IN FILES
+# WJ_tem_res_steady WHICH HAVE THE FOLLOWING COLUMNS:
+# COL 1. HORIZONTAL MODEL DISTANCE (KM FROM UPWELLING AXIS)
+# COL 2. VERTICAL MODEL DISTANCE (KM ABOVE SURFACE; -VE IS BELOW SURFACE)
+# COL 3. REAL TEMPERATURE (DEG CELCIUS)
+# COL 4. DEGREE UNMELTED SOURCE (I.E. 1 MINUS THE DEGREE OF MELTING)
+# COL 5. POTENTIAL TEMPERATURE
+# COL 6. NOT USED
+
+# NOW WE MANIPULATE THE MORMEL OUTPUT FOR PLOTTING BY THIS SCRIPT.
+# THE AWK LINES BELOW WRITE OUT THE FOLLOWING COLUMNS:
+# COL 1. DEGREE OF MELTING (PER CENT)
+# COL 2. DEPTH BELOW SURFACE (KM)
+# COL 3. WATER CONTENT OF MELT (WEIGHT PER CENT) FROM EQ. 18 OF KATZ ET AL. (2003), AND USING THEIR VALUE FOR DH2O
+
+awk '{if($1==0){F=1-$4; print 100*F,-$2, 0.2/(0.01+F*0.99)}}' 1300_80_0.02_0.2/WJ_tem_res_steady > tmp.0.2
+awk '{if($1==0){F=1-$4; print 100*F,-$2, 0.15/(0.01+F*(0.99))}}' 1300_80_0.02_0.15/WJ_tem_res_steady > tmp.0.15
+awk '{if($1==0){F=1-$4; print 100*F,-$2, 0.1/(0.01+F*(0.99))}}' 1300_80_0.02_0.1/WJ_tem_res_steady > tmp.0.1
+
+# NOW WE CALCULATE THE MELT PRODUCTIVITY ACROSS THE FOOTPRINT
+# OF THE RETURN-FLOW UPWELLING IN RESPONSE TO A DOWNWELLING
+# RAYLEIGH-TAYLOR INSTABILITY IN THE THERMAL BOUNDARY LAYER
+# AT THE BASE OF THE LITHOSPHERE.  THIS IS A ROUGH APPROXIMATION
+# DERIVED FROM THE ADIABATIC MELTING COLUMN WITH THE AIM
+# OF SEEING WHETHER THE EXPECTED MELT PRODUCTIVITY IS IN THE SAME
+# ORDER OF MAGNITUDE AS THE SURFACE OBSERVATIONS.  MORE DETAILED
+# CALCULATIONS COULD PERHAPS BE DONE IN A LATER STUDY AND 
+# WOULD NEED THE 2D/3D PATTERN OF UPWELLING AND TEMPERATURE
+# STRUCTURE, E.G. AS PREDICTED BY THE ASPECT MODELLING.
+
+# THE AWK SCRIPTS BELOW HAVE 3 STEPS.
+# 1. USE THE HYDROUS MELT DEGREE-DEPTH CURVE FROM MORMEL, X(z), TO DETERMINE
+#    dX/dz BY FINITE DIFFERENCING.
+# 2. DETERMINE MELT PRODUCTIVITY, GAMMA = dX/dt = (dz/dt).(dX/dz) = V.(dX/dz), 
+#    WHERE V IS THE UPWELLING SPEED (E.G. BOWN & WHITE, JGR, 1995, EQ 5).
+#    HERE, WE USE V = 30 KM/YR, IN AGREEMENT WITH PREDICTIONS OF MY
+#    ANAYLITICAL MODEL AND SASCHA BRUNE'S NUMERICAL CALCULATIONS.
+# 3. INTEGRATE GAMMA OVER DEPTH TO GET THE TOTAL MELT PRODUCTIVITY
+#    FOR THIS COLUMN OF MELT, I.E. UNITS OF KM/MYR /KM2.  INTEGRATION IS 
+#    DONE USING THE TRAPEZIUM RULE OVER DEPTHS GREATER THAN 150 KM,
+#    WHICH IS CONSIDERED TO BE THE THICKNESS OF MECHANICALLY RIGID
+#    LITHOSPHERE THAT REMAINS ONCE THE UNSTABLE BASE HAS DETACHED.
+# (4.  THE TOTAL MELT PRODUCTIVITY ACROSS THE FOOTPRING OF THE CONVECTION
+#      CELL CAN THEN BE FOUND IN THE MAIN PAPER BY MULTIPLYING BY THE
+#      FOOTPRINT AREA OF THE CONVECTION CELL).
+
+awk 'BEGIN{V=30}{if ($2>=150) {n++; X[n]=$1/100; z[n]=$2}; if ($1==0 && n>1) exit}END{Gtot=0; gamma0=0; for(i=n-1;i>1;i--){dz=-(z[i-1]-z[i+1]); if (dz != 0 ) {dXdz=(X[i-1]-X[i+1])/dz}else{dXdz=0}; gamma=V*dXdz; Ginc=0.5*(gamma0+gamma)*(dz/2); Gtot+=Ginc; print dXdz, z[i], Gtot; gamma0=gamma}}' tmp.0.1 > tmp.0.1.dXdz
+awk 'BEGIN{V=30}{if ($2>=150) {n++; X[n]=$1/100; z[n]=$2}; if ($1==0 && n>1) exit}END{Gtot=0; gamma0=0; for(i=n-1;i>1;i--){dz=-(z[i-1]-z[i+1]); if (dz != 0 ) {dXdz=(X[i-1]-X[i+1])/dz}else{dXdz=0}; gamma=V*dXdz; Ginc=0.5*(gamma0+gamma)*(dz/2); Gtot+=Ginc; print dXdz, z[i], Gtot; gamma0=gamma}}' tmp.0.15 > tmp.0.15.dXdz
+awk 'BEGIN{V=30}{if ($2>=150) {n++; X[n]=$1/100; z[n]=$2}; if ($1==0 && n>1) exit}END{Gtot=0; gamma0=0; for(i=n-1;i>1;i--){dz=-(z[i-1]-z[i+1]); if (dz != 0 ) {dXdz=(X[i-1]-X[i+1])/dz}else{dXdz=0}; gamma=V*dXdz; Ginc=0.5*(gamma0+gamma)*(dz/2); Gtot+=Ginc; print dXdz, z[i], Gtot; gamma0=gamma}}' tmp.0.2 > tmp.0.2.dXdz
+
+#
+# PLOTTING
+#
+
+OUT=./deep_hydrous_4.ps		# NAME OF OUTPUT POSTSCRIPT FILE
+
+#
+# PANEL (A): MELT DEGREE (%) VERSUS DEPTH (KM)
+#
+
+gmt psxy -R0/2/150/300 -JX4/-6.5 -Bxa1f0.2+l"Degree of Melting (%)" -Bya50f10+l"Base Rigid Lithosphere (km)" -BWeSn -G192 -P -K <<EOF > $OUT
+0	150
+10	150
+10	190
+0	190
+EOF
+
+gmt psxy tmp.0.1 -R -JX -W0.5p -K -O >> $OUT
+gmt psxy tmp.0.15 -R -JX -W0.5p -K -O >> $OUT
+gmt psxy tmp.0.2 -R -JX -W0.5p -K -O >> $OUT
+
+# ADD LABELS
+
+gmt pstext -R -JX -N -F+f8p,Helvetica+jMC -Gwhite -O -K << EOF >> $OUT
+0.20	215	0.2
+EOF
+gmt pstext -R -JX -N -F+f8p,Helvetica+jMC -G192 -O -K << EOF >> $OUT
+0.30	170	0.15
+EOF
+gmt pstext -R -JX -N -F+f8p,Helvetica+jMC -O -K << EOF >> $OUT
+0.15	155	0.1
+EOF
+
+#
+# PANEL (B): MELT PRODUCTIVITY (KM/MYR/KM2) VERSUS DEPTH (KM)
+#
+
+gmt psxy -R0/0.4/150/300 -JX4/-6.5 -Bxa0.1f0.02+l"Melt Productivity (km/Myr per km@+2@+)" -Bya50f10+l"Base Rigid Lithosphere (km)" -BweSn -G192 -X5 -O -K <<EOF >> $OUT
+0	150
+1000	150
+1000	190
+0	190
+EOF
+
+awk '{print $3,$2}' tmp.0.2.dXdz | \
+	gmt psxy -R -JX -W0.5p -K -O >> $OUT
+awk '{print $3,$2}' tmp.0.15.dXdz | \
+	gmt psxy -R -JX -W0.5p -K -O >> $OUT
+awk '{print $3,$2}' tmp.0.1.dXdz | \
+	gmt psxy -R -JX -W0.5p -K -O >> $OUT
+
+# ADD LABELS
+
+gmt pstext -R -JX -N -F+f8p,Helvetica+jMC -Gwhite -O -K << EOF >> $OUT
+0.07	215	0.2
+EOF
+gmt pstext -R -JX -N -F+f8p,Helvetica+jMC -G192 -O -K << EOF >> $OUT
+0.09	170	0.15
+EOF
+gmt pstext -R -JX -N -F+f8p,Helvetica+jMC -O -K << EOF >> $OUT
+0.04	155	0.1
+EOF
+
+#
+# PANEL (C): WATER IN MELT (WT%) VERSUS DEPTH (KM)
+#
+
+gmt psxy -R0/20/150/300 -JX4/-6.5 -Bxa5f1+l"Water in Melt (wt%)" -Bya50f10+l"Base Rigid Lithosphere (km)" -BweSn -G192 -X5 -O -K <<EOF >> $OUT
+0	150
+20	150
+20	190
+0	190
+EOF
+
+tail -r tmp.0.2 > tmp
+awk '{if (NR==1) x=$3; if ($3<x) print $3,$2}' tmp | \
+	gmt psxy -R -JX -W0.5p -K -O >> $OUT
+tail -r tmp.0.15 > tmp
+awk '{if (NR==1) x=$3; if ($3<x) print $3,$2}' tmp | \
+	gmt psxy -R -JX -W0.5p -K -O >> $OUT
+tail -r tmp.0.1 > tmp
+awk '{if (NR==1) x=$3; if ($3<x) print $3,$2}' tmp | \
+	gmt psxy -R -JX -W0.5p -O >> $OUT
+
+#
+# DISPLAY FIGURE
+#
+
+psconvert $OUT -A -Tf
+psconvert $OUT -A -Tg
+open "${OUT%.ps}.pdf"
+exit
+#
+
