@@ -15,5 +15,16 @@ The following studies have used MORMEL.  The code version in this repository in 
 
 Make using "make". For examples of operation, see the GMT (Generic Mapping Tools) scripts that were used to create some key figures in the references above. 
 
+## *mormel.f*, *lib_comp.f*, *lib_k03.f*, *lib_mb88.f*, *lib_mel.f*, *lib_res.f*, *lib_comp.f*, *lib_td.f*, *lib_veltem.f*
+
+Source code for MORMEL.
+
+## *wj_parameters*
+
+Example input file for MORMEL.  The comments in this file are not intended as a comprehensive set of instructions, and are not guaranteed to be accurate because they might be relict from earlier versions of the code.  To understand the functionality and be sure that the code is doing what you want, you should check the source code files for yourself and carefully inspect the outputs.  You can also refer to the example scripts below that were used to generated data for the figures in the peer-reviewed papers.
+
+## *deep_hydrous_gea23.gmt*, *make_flow_models_gea23.csh*, *run_steady_state_auto_gea23.csh*
+
+Scripts used to calculate and plot Figure 3c of Gernon, Jones et al. (2023).  The calculations estimate the magma productivity and magma water content associated with delamination of basal cratonic lithosphere.  See the paper itself and the comments in the scripts for more detail.  
 
 
