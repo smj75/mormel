@@ -23,7 +23,7 @@ Source code for MORMEL.
 
 ## *wj_parameters*
 
-Example input file for MORMEL.  The comments in this file are not intended as a comprehensive set of instructions, and are not guaranteed to be accurate because they might be relict from earlier versions of the code.  To understand the functionality and be sure that the code is doing what you want, you should check the source code files for yourself and carefully inspect the outputs.  You can also refer to the example scripts below that were used to generated data for the figures in the peer-reviewed papers.
+Example input file for MORMEL.  The comments in this file are not intended as a comprehensive set of instructions, and are not guaranteed to be accurate because they might be relict from earlier versions of the code.  To understand the functionality and be sure that the code is doing what you want, you should check the source code files for yourself and carefully inspect the outputs.  You can also refer to the scripts below that were used to generate the some of the figures in the peer-reviewed papers.
 
 ## *deep_hydrous_gea23.gmt*, *make_flow_models_gea23.csh*, *run_steady_state_auto_gea23.csh*
 
